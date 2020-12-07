@@ -1,4 +1,4 @@
-module Main exposing (..)
+module Main exposing (main)
 
 import Browser
 import Element exposing (Element, centerX, centerY, el, fill, height, text, width)
@@ -12,7 +12,7 @@ import Time exposing (toHour, toMinute, toSecond, utc)
 
 wallpaper : String
 wallpaper =
-    "https://cdnb.artstation.com/p/assets/images/images/030/073/957/large/alena-aenami-out-of-time-1080p.jpg"
+    "https://cdna.artstation.com/p/assets/images/images/022/502/864/medium/alena-aenami-eternity-1080px.jpg?1575651131"
 
 
 type alias Model =
@@ -57,7 +57,7 @@ update msg model =
 
 
 subscriptions : Model -> Sub Msg
-subscriptions model =
+subscriptions _ =
     Time.every 1000 Tick
 
 
@@ -70,13 +70,21 @@ view model =
 myElement : Model -> Element msg
 myElement model =
     el
-        [ Background.tiled wallpaper
+        [ Background.image wallpaper
         , width fill
         , height fill
         ]
         (el
             [ centerX
             , centerY
+            , Font.size 100
+            , Font.color (Element.rgb 1 1 1)
+            , Font.family
+                [ Font.external
+                    { name = "SF Pixelate"
+                    , url = "https://fontlibrary.org/face/pixelated"
+                    }
+                ]
             ]
             (text (timeStr model))
         )
@@ -84,13 +92,13 @@ myElement model =
 
 timeStr : Model -> String
 timeStr model =
-    "[ "
+    "["
         ++ formatDigits (String.fromInt (toHour model.zone model.time))
         ++ ":"
         ++ formatDigits (String.fromInt (toMinute model.zone model.time))
         ++ ":"
         ++ formatDigits (String.fromInt (toSecond model.zone model.time))
-        ++ " ]"
+        ++ "]"
 
 
 formatDigits : String -> String
